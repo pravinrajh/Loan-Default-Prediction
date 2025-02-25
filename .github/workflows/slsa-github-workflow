@@ -1,0 +1,48 @@
+name: SLSA Loan Default Generator
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      digests: ${{ steps.hash.outputs.digests }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ========================================================
+      # Step 1: Build your artifacts (e.g., Flask API, ML Model)
+      # ========================================================
+      - name: Build artifacts
+        run: |
+            # Generate a sample model file & Flask app package
+            echo "Loan Default Prediction Model" > model.pkl
+            echo "Flask API Build" > flask_build.zip
+
+      # ========================================================
+      # Step 2: Generate provenance subjects for verification
+      # ========================================================
+      - name: Generate subject for provenance
+        id: hash
+        run: |
+          set -euo pipefail
+
+          # List the artifacts the provenance will refer to.
+          files=$(ls model.pkl flask_build.zip)
+          # Generate the subjects (base64 encoded).
+          echo "hashes=$(sha256sum $files | base64 -w0)" >> "${GITHUB_OUTPUT}"
+
+  provenance:
+    needs: [build]
+    permissions:
+      actions: read   # To read the workflow path.
+      id-token: write # To sign the provenance.
+      contents: write # To add assets to a release.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.5.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.digests }}"
+      upload-assets: true # Upload provenance file to the release
