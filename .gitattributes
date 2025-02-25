@@ -1,0 +1,7 @@
+# Track CSV files with Git LFS
+*.csv filter=lfs diff=lfs merge=lfs -text
+
+# Optional: You can also track other large binary files
+# Example for tracking other file types:
+# *.zip filter=lfs diff=lfs merge=lfs -text
+# *.mp4 filter=lfs diff=lfs merge=lfs -text
