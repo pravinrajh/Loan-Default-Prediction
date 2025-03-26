@@ -75,7 +75,7 @@ Higher Debt-to-Income ratio → higher default risk
 bash
 Copy
 Edit
-git clone https://github.com/yourusername/Loan-Default-Prediction.git
+git clone https://github.com/pravinrajh/Loan-Default-Prediction.git
 cd Loan-Default-Prediction
 2️⃣ Install dependencies:
 
@@ -106,7 +106,4 @@ streamlit run app/app.py
 ✅ Implement Deep Learning (ANN) for better accuracy
 ✅ Integrate with a real-time financial dashboard
 
-🛠 Contributors
-👤 Your Name (your GitHub profile link)
-
-📩 Feel free to reach out for any questions or collaborations! 🚀
+ 🚀
